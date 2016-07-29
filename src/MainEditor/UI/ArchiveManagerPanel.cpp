@@ -40,6 +40,7 @@
 #include "MainEditor/MainWindow.h"
 #include "MapEditor/MapEditorWindow.h"
 #include "TextureXEditor/TextureXEditor.h"
+#include "DecorateEditor/DecorateEditor.h"
 #include "UI/SplashWindow.h"
 #include "UI/STabCtrl.h"
 
@@ -928,6 +929,98 @@ void ArchiveManagerPanel::closeTextureTab(int archive_index)
 {
 	TextureXEditor* txed = getTextureTab(archive_index);
 	if (txed) stc_archives->DeletePage(stc_archives->GetPageIndex(txed));
+}
+
+/* ArchiveManagerPanel::openDecorateTab
+ * Opens a new decorate editor tab for the archive at <archive_index>
+ * in the archive manager
+ *******************************************************************/
+void ArchiveManagerPanel::openDecorateTab(int archive_index, ArchiveEntry* entry)
+{
+	Archive* archive = theArchiveManager->getArchive(archive_index);
+	
+	if (archive)
+	{
+		// Go through all tabs
+		for (size_t a = 0; a < stc_archives->GetPageCount(); a++)
+		{
+			// Check page type is "decorate"
+			if (stc_archives->GetPage(a)->GetName().CmpNoCase("decorate"))
+				continue;
+			
+			// Check for archive match
+			DecorateEditor* deced = (DecorateEditor*)stc_archives->GetPage(a);
+			if (deced->getArchive() == archive)
+			{
+				// Selected archive already has its texture editor open, so show that tab
+				stc_archives->SetSelection(a);
+				deced->setSelection(entry);
+				return;
+			}
+		}
+		
+		// If tab isn't already open, open a new one
+		DecorateEditor* deced = new DecorateEditor(stc_archives);
+		deced->Show(false);
+		if (!deced->openArchive(archive))
+		{
+			delete deced;
+			return;
+		}
+		
+		stc_archives->AddPage(deced, S_FMT("Decorate Editor (%s)", archive->getFilename(false)), true);
+		stc_archives->SetPageBitmap(stc_archives->GetPageCount() - 1, Icons::getIcon(Icons::ENTRY, "texturex"));
+		deced->SetName("decorate");
+		deced->setSelection(entry);
+		deced->Show(true);
+		// Select the new tab
+		for (size_t a = 0; a < stc_archives->GetPageCount(); a++)
+		{
+			if (stc_archives->GetPage(a) == deced)
+			{
+				stc_archives->SetSelection(a);
+				return;
+			}
+		}
+	}
+}
+
+/* ArchiveManagerPanel::getDecorateTab
+ * Returns the TextureXEditor for the archive at [archive_index],
+ * or NULL if none is open for that archive
+ *******************************************************************/
+DecorateEditor* ArchiveManagerPanel::getDecorateTab(int archive_index)
+{
+	Archive* archive = theArchiveManager->getArchive(archive_index);
+	
+	if (archive)
+	{
+		// Go through all tabs
+		for (size_t a = 0; a < stc_archives->GetPageCount(); a++)
+		{
+			// Check page type is "decorate"
+			if (stc_archives->GetPage(a)->GetName().CmpNoCase("decorate"))
+				continue;
+			
+			// Check for archive match
+			DecorateEditor* deced = (DecorateEditor*)stc_archives->GetPage(a);
+			if (deced->getArchive() == archive)
+				return deced;
+		}
+	}
+	
+	// No decorate editor open for that archive
+	return NULL;
+}
+
+/* ArchiveManagerPanel::closeDecorateTab
+ * Closes the decorate editor tab for the archive at <archive_index>
+ * in the archive manager
+ *******************************************************************/
+void ArchiveManagerPanel::closeDecorateTab(int archive_index)
+{
+	DecorateEditor* deced = getDecorateTab(archive_index);
+	if (deced) stc_archives->DeletePage(stc_archives->GetPageIndex(deced));
 }
 
 /* ArchiveManagerPanel::redirectToTab

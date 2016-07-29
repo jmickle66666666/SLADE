@@ -18,6 +18,7 @@ private:
 	wxButton*		btn_gfx_convert;
 	wxButton*		btn_gfx_modify_offsets;
 	wxButton*		btn_texture_edit;
+	wxButton*		btn_decorate_edit;
 
 public:
 	DefaultEntryPanel(wxWindow* parent);
@@ -30,6 +31,7 @@ public:
 	void	onBtnGfxConvert(wxCommandEvent& e);
 	void	onBtnGfxModifyOffsets(wxCommandEvent& e);
 	void	onBtnTextureEdit(wxCommandEvent& e);
+	void	onBtnDecorateEdit(wxCommandEvent& e);
 };
 
 #endif//__DEFAULT_ENTRY_PANEL_H__

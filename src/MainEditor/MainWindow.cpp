@@ -682,6 +682,14 @@ void MainWindow::openTextureEditor(Archive* archive, ArchiveEntry* entry)
 	panel_archivemanager->openTextureTab(theArchiveManager->archiveIndex(archive), entry);
 }
 
+/* MainWindow::openDecorateEditor
+ * Opens the decorate editor for the current archive tab
+ *******************************************************************/
+void MainWindow::openDecorateEditor(Archive* archive, ArchiveEntry* entry)
+{
+	panel_archivemanager->openDecorateTab(theArchiveManager->archiveIndex(archive), entry);
+}
+
 /* MainWindow::openMapEditor
  * Opens the map editor for the current archive tab
  *******************************************************************/

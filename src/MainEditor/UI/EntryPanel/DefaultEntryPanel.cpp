@@ -87,6 +87,7 @@ DefaultEntryPanel::DefaultEntryPanel(wxWindow* parent)
 	btn_gfx_convert->Bind(wxEVT_BUTTON, &DefaultEntryPanel::onBtnGfxConvert, this);
 	btn_gfx_modify_offsets->Bind(wxEVT_BUTTON, &DefaultEntryPanel::onBtnGfxModifyOffsets, this);
 	btn_texture_edit->Bind(wxEVT_BUTTON, &DefaultEntryPanel::onBtnTextureEdit, this);
+	btn_decorate_edit->Bind(wxEVT_BUTTON, &DefaultEntryPanel::onBtnDecorateEdit, this);
 
 	// Hide save/revert toolbar
 	toolbar->deleteGroup("Entry");
@@ -245,4 +246,12 @@ void DefaultEntryPanel::onBtnGfxModifyOffsets(wxCommandEvent& e)
 void DefaultEntryPanel::onBtnTextureEdit(wxCommandEvent& e)
 {
 	theMainWindow->openTextureEditor(entry->getParent(), entry);
+}
+
+/* DefaultEntryPanel::onBtnDecorateEdit
+ * Called when the 'Open Decorate Editor' button is clicked
+ *******************************************************************/
+void DefaultEntryPanel::onBtnDecorateEdit(wxCommandEvent &e)
+{
+	theMainWindow->openDecorateEditor(entry->getParent(), entry);
 }

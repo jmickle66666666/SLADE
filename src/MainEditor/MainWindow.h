@@ -71,6 +71,7 @@ public:
 	vector<ArchiveEntry*>	getCurrentEntrySelection();
 
 	void	openTextureEditor(Archive* archive, ArchiveEntry* entry = NULL);
+	void	openDecorateEditor(Archive* archive, ArchiveEntry* entry = NULL);
 	void	openMapEditor(Archive* archive);
 	void	openEntry(ArchiveEntry* entry);
 #ifdef USE_WEBVIEW_STARTPAGE

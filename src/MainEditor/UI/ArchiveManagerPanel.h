@@ -13,6 +13,7 @@ class ArchivePanel;
 class Archive;
 class STabCtrl;
 class TextureXEditor;
+class DecorateEditor;
 class EntryPanel;
 
 wxDECLARE_EVENT(wxEVT_COMMAND_DIRARCHIVECHECK_COMPLETED, wxThreadEvent);
@@ -124,6 +125,9 @@ public:
 	void			openTextureTab(int archive_index, ArchiveEntry* entry = NULL);
 	TextureXEditor*	getTextureTab(int archive_index);
 	void			closeTextureTab(int archive_index);
+	void			openDecorateTab(int archive_index, ArchiveEntry* entry = NULL);
+	DecorateEditor* getDecorateTab(int archive_index);
+	void			closeDecorateTab(int archive_index);
 	void			openEntryTab(ArchiveEntry* entry);
 	void			closeEntryTabs(Archive* parent);
 	void			openFile(string filename);
