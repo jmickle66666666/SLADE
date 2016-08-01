@@ -5,6 +5,8 @@
 #include "UI/Browser/BrowserWindow.h"
 #include "General/ListenerAnnouncer.h"
 #include "Archive/Archive.h"
+#include "UI/TextEditor/TextEditor.h"
+#include "UI/Lists/VirtualListView.h"
 
 class Archive;
 
@@ -12,6 +14,10 @@ class DecorateEditor : public wxPanel, Listener
 {
 private:
 	Archive*					archive;
+	TextEditor*					decorate_text_area;
+	wxListCtrl*			list_actors;
+	void				initializeActorList();
+	void				addActor(long int, string name);
 
 public:
 	DecorateEditor(wxWindow* parent);

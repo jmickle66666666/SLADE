@@ -6,11 +6,7 @@
  * Email:       sirjuddington@gmail.com
  * Web:         http://slade.mancubus.net
  * Filename:    DecorateEditor.cpp
- * Description: A specialisation of the Browser class for browsing
- *              the contents of a patch table. Splits the patches
- *              into three categories - Base, Archive and Unknown
- *              for patches existing in the base resource, the
- *              current archive, and entries not found, respectively
+ * Description: The UI for the DECORATE editor
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -52,6 +48,19 @@ DecorateEditor::DecorateEditor(wxWindow* parent) : wxPanel(parent, -1)
 {
 	SetName("decorate");
 	this->archive = NULL;
+	
+	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+	SetSizer(sizer);
+	
+	// Create the text area
+	decorate_text_area = new TextEditor(this, -1);
+	sizer->Add(decorate_text_area, 1, wxEXPAND, 0);
+	
+	
+	// Create ACTOR list
+	list_actors = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
+	initializeActorList();
+	sizer->Add(list_actors, 1, wxEXPAND, 4);
 }
 
 /* DecorateEditor::~DecorateEditor
@@ -60,6 +69,25 @@ DecorateEditor::DecorateEditor(wxWindow* parent) : wxPanel(parent, -1)
 DecorateEditor::~DecorateEditor()
 {
 
+}
+
+void DecorateEditor::initializeActorList()
+{
+	wxListItem col;
+	col.SetId(0);
+	col.SetText("Actor List");
+	col.SetWidth(50);
+	list_actors->InsertColumn(0, col);
+	
+	addActor(0,"Imp");
+}
+
+void DecorateEditor::addActor(long id, string name)
+{
+	wxListItem new_item;
+	new_item.SetText(name);
+	new_item.SetId(id);
+	list_actors->InsertItem(new_item);
 }
 
 bool DecorateEditor::openArchive(Archive* archive)

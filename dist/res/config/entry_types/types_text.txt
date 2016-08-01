@@ -70,7 +70,7 @@ entry_types
 		match_name = "decorate";
 		match_ext = "dec";
 		match_extorname = 1;
-		text_language = "decorate";
+		editor = decorate;
 	}
 
 	dehacked : text

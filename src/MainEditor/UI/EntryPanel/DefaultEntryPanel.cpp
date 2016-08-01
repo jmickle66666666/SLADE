@@ -80,6 +80,10 @@ DefaultEntryPanel::DefaultEntryPanel(wxWindow* parent)
 	// Add 'Edit Textures' button
 	btn_texture_edit = new wxButton(this, -1, "Edit Textures");
 	framesizer->Add(btn_texture_edit, 0, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 4);
+	
+	// Add 'Edit Decorate' button
+	btn_decorate_edit = new wxButton(this, -1, "Edit Decorate");
+	framesizer->Add(btn_decorate_edit, 0, wxEXPAND|wxLEFT|wxRIGHT|wxBOTTOM, 4);
 
 	sizer_main->AddStretchSpacer(1);
 
@@ -137,6 +141,13 @@ bool DefaultEntryPanel::loadEntry(ArchiveEntry* entry)
 	{
 		frame_actions->Show(true);
 		btn_texture_edit->Show(true);
+	}
+	
+	// Check for DECORATE entry
+	if (entry->getType()->getName() == "Decorate")
+	{
+		frame_actions->Show(true);
+		btn_decorate_edit->Show(true);
 	}
 
 	// Update layout
