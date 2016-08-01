@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-#include "Game/Args.h"
+#include "MapEditor/GameConfiguration/Args.h"
 
 class MapObject;
 class MapObjectPropsPanel;

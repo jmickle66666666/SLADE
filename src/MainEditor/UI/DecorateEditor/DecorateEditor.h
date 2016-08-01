@@ -7,6 +7,7 @@
 #include "Archive/Archive.h"
 #include "UI/TextEditor/TextEditor.h"
 #include "UI/Lists/VirtualListView.h"
+#include "MapEditor/GameConfiguration/GameConfiguration.h"
 
 class Archive;
 
@@ -16,6 +17,7 @@ private:
 	Archive*					archive;
 	TextEditor*					decorate_text_area;
 	wxListCtrl*			list_actors;
+	wxListCtrl*			list_states;
 	void				initializeActorList();
 	void				addActor(long int, string name);
 
@@ -33,4 +35,5 @@ public:
 	void	onAnnouncement(Announcer* announcer, string event_name, MemChunk& event_data);
 };
 
+#define theGameConfiguration GameConfiguration::getInstance()
 #endif//__DECORATE_EDITOR_H__

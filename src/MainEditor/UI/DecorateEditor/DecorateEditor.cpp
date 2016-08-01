@@ -36,6 +36,7 @@
 #include "Graphics/CTexture/TextureXList.h"
 #include "Graphics/SImage/SImage.h"
 #include "MainEditor/MainWindow.h"
+#include "MapEditor/GameConfiguration/GameConfiguration.h"
 
 /*******************************************************************
  * DECORATEEDITOR CLASS FUNCTIONS
@@ -49,18 +50,25 @@ DecorateEditor::DecorateEditor(wxWindow* parent) : wxPanel(parent, -1)
 	SetName("decorate");
 	this->archive = NULL;
 	
-	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-	SetSizer(sizer);
+	// Main Sizer
+	wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* actorSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+	SetSizer(mainSizer);
 	
-	// Create the text area
+	// Create the actor area
+	
+	// Create text area
 	decorate_text_area = new TextEditor(this, -1);
-	sizer->Add(decorate_text_area, 1, wxEXPAND, 0);
+	leftSizer->Add(decorate_text_area, 1, wxEXPAND, 0);
 	
+	// Create STATE list
+	list_states = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
 	
 	// Create ACTOR list
 	list_actors = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
 	initializeActorList();
-	sizer->Add(list_actors, 1, wxEXPAND, 4);
+	mainSizer->Add(list_actors, 1, wxEXPAND, 4);
 }
 
 /* DecorateEditor::~DecorateEditor
@@ -76,10 +84,15 @@ void DecorateEditor::initializeActorList()
 	wxListItem col;
 	col.SetId(0);
 	col.SetText("Actor List");
-	col.SetWidth(50);
+	col.SetWidth(200);
 	list_actors->InsertColumn(0, col);
 	
-	addActor(0,"Imp");
+	unsigned nThingTypes = theGameConfiguration->allThingTypes().size();
+	
+	for (unsigned i = 0; i < nThingTypes; i++) {
+		ThingType* tt = theGameConfiguration->thingType(i);
+		addActor(i, tt->getName());
+	}
 }
 
 void DecorateEditor::addActor(long id, string name)
