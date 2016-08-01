@@ -960,7 +960,7 @@ void ArchiveManagerPanel::openDecorateTab(int archive_index, ArchiveEntry* entry
 		}
 		
 		// If tab isn't already open, open a new one
-		DecorateEditor* deced = new DecorateEditor(stc_archives);
+		DecorateEditor* deced = new DecorateEditor(stc_archives,archive);
 		deced->Show(false);
 		if (!deced->openArchive(archive))
 		{

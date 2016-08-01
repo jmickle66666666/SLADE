@@ -8,6 +8,7 @@
 #include "UI/TextEditor/TextEditor.h"
 #include "UI/Lists/VirtualListView.h"
 #include "MapEditor/GameConfiguration/GameConfiguration.h"
+#include "UI/Canvas/GfxCanvas.h"
 
 class Archive;
 
@@ -18,11 +19,12 @@ private:
 	TextEditor*					decorate_text_area;
 	wxListCtrl*			list_actors;
 	wxListCtrl*			list_states;
+	GfxCanvas*			sprite_canvas;
 	void				initializeActorList();
 	void				addActor(long int, string name);
 
 public:
-	DecorateEditor(wxWindow* parent);
+	DecorateEditor(wxWindow* parent,Archive* archive);
 	~DecorateEditor();
 	
 	Archive*		getArchive() { return archive; }

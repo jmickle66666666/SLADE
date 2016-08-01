@@ -45,30 +45,38 @@
 /* DecorateEditor::DecorateEditor
  * DecorateEditor class constructor
  *******************************************************************/
-DecorateEditor::DecorateEditor(wxWindow* parent) : wxPanel(parent, -1)
+DecorateEditor::DecorateEditor(wxWindow* parent, Archive* archive) : wxPanel(parent, -1)
 {
 	SetName("decorate");
-	this->archive = NULL;
+	this->archive = archive;
 	
 	// Main Sizer
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* actorSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
 	SetSizer(mainSizer);
 	
-	// Create the actor area
+	// Create preview area
+	wxBoxSizer* actorSizer = new wxBoxSizer(wxHORIZONTAL);
+	sprite_canvas = new GfxCanvas(this, 0);
+	actorSizer->Add(sprite_canvas, 1, wxEXPAND, 0);
+	
+	// Create STATE list
+	list_states = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
+	actorSizer->Add(list_states, 1, wxSTRETCH_NOT, 0);
+	
+	wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+										
+	leftSizer->Add(actorSizer, 1, wxEXPAND, 0);
 	
 	// Create text area
 	decorate_text_area = new TextEditor(this, -1);
 	leftSizer->Add(decorate_text_area, 1, wxEXPAND, 0);
 	
-	// Create STATE list
-	list_states = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
+	mainSizer->Add(leftSizer, 1, wxEXPAND);
 	
 	// Create ACTOR list
 	list_actors = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT);
 	initializeActorList();
-	mainSizer->Add(list_actors, 1, wxEXPAND, 4);
+	mainSizer->Add(list_actors, 1, wxEXPAND);
 }
 
 /* DecorateEditor::~DecorateEditor
@@ -86,6 +94,11 @@ void DecorateEditor::initializeActorList()
 	col.SetText("Actor List");
 	col.SetWidth(200);
 	list_actors->InsertColumn(0, col);
+	
+	// Read DECORATE definitions if any
+	theGameConfiguration->parseDecorateDefs(theArchiveManager->baseResourceArchive());
+	
+	theGameConfiguration->parseDecorateDefs(archive);
 	
 	unsigned nThingTypes = theGameConfiguration->allThingTypes().size();
 	
