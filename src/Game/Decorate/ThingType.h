@@ -2,7 +2,7 @@
 #ifndef __THING_TYPE_H__
 #define __THING_TYPE_H__
 
-#include "Args.h"
+#include "Game/Args.h"
 
 enum ThingFlags
 {

@@ -3,7 +3,7 @@
 #define __GAME_CONFIGURATION_H__
 
 #include "ActionSpecial.h"
-#include "ThingType.h"
+#include "Game/Decorate/ThingType.h"
 #include "UDMFProperty.h"
 #include "Utility/PropertyList/PropertyList.h"
 

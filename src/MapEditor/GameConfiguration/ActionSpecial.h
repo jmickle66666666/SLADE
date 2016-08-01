@@ -2,7 +2,7 @@
 #ifndef __ACTION_SPECIAL_H__
 #define __ACTION_SPECIAL_H__
 
-#include "Args.h"
+#include "Game/Args.h"
 
 WX_DECLARE_STRING_HASH_MAP(arg_t, SpecialArgMap);
 
