@@ -12,16 +12,39 @@
 
 class Archive;
 
+class DecorateActorList : public VirtualListView
+{
+private:
+	vector<tt_t>*	actor_list;
+protected:
+	string	getItemText(long item, long column, long index) const;
+public:
+	DecorateActorList(wxWindow* parent, vector<tt_t>* actor_list);
+	~DecorateActorList();
+	void			updateList(bool clear = false);
+};
+
+class DecorateStateList : public VirtualListView
+{
+private:
+	vector<string>*	state_list;
+protected:
+	string	getItemText(long item, long column, long index) const;
+public:
+	DecorateStateList(wxWindow* parent, vector<string>* state_list);
+	~DecorateStateList();
+	void			updateList(bool clear = false);
+};
+
 class DecorateEditor : public wxPanel, Listener
 {
 private:
+	vector<tt_t>				actor_list;
 	Archive*					archive;
 	TextEditor*					decorate_text_area;
-	wxListCtrl*			list_actors;
-	wxListCtrl*			list_states;
+	DecorateActorList*			actor_list_view;
+	DecorateStateList*			state_list_view;
 	GfxCanvas*			sprite_canvas;
-	void				initializeActorList();
-	void				addActor(long int, string name);
 
 public:
 	DecorateEditor(wxWindow* parent,Archive* archive);
