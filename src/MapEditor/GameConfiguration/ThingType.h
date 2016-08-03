@@ -41,6 +41,7 @@ private:
 	int		nextargs;
 	int		flags;
 	int		tagged;
+	vector<string> states;
 
 public:
 	ThingType(string name = "Unknown");
@@ -73,6 +74,9 @@ public:
 	const argspec_t getArgspec() { return argspec_t(args, arg_count); }
 	string	getArgsString(int args[5]);
 	void	setSprite(string sprite) { this->sprite = sprite; }
+	vector<string> getStates() { return states; }
+	string	getStateAtIndex(int index) { return states.at(index); }
+	void	addState(string state) { states.push_back(state); }
 
 	void	reset();
 	void	parse(ParseTreeNode* node);
