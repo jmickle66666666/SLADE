@@ -1999,7 +1999,9 @@ bool GameConfiguration::parseDecorateDefs(Archive* archive)
 	tz.setSpecialCharacters(":,{}");
 	tz.enableDecorate(true);
 	tz.openString(full_defs);
-
+	
+	vector<string> state_list;
+	
 	// --- Parse ---
 	string token = tz.getToken();
 	while (!token.empty())
@@ -2176,6 +2178,9 @@ bool GameConfiguration::parseDecorateDefs(Archive* archive)
 						if (!sprite_given && S_CMPNOCASE(token, "states"))
 						{
 							tz.skipToken(); // Skip {
+							
+							// clear state list for population
+							state_list.clear();
 
 							int statecounter = 0;
 							string spritestate;
@@ -2194,6 +2199,8 @@ bool GameConfiguration::parseDecorateDefs(Archive* archive)
 									while (token.Cmp(":") && token.Cmp("}"))
 									{
 										myspritestate = token;
+										// add state to state list
+										state_list.push_back(myspritestate);
 										token = tz.getToken();
 									}
 									if (S_CMPNOCASE(token, "}"))
@@ -2290,6 +2297,9 @@ bool GameConfiguration::parseDecorateDefs(Archive* archive)
 						thing_types[type].index = thing_types.size();
 						thing_types[type].number = type;
 						thing_types[type].type->decorate = true;
+						// add states to state list
+						for (int i = 0; i < state_list.size(); i++)
+							thing_types[type].type->addState(state_list.at(i));
 					}
 					else
 						defined = true;
@@ -2422,6 +2432,9 @@ bool GameConfiguration::parseDecorateDefs(Archive* archive)
 				group = token;
 				name = tz.getToken();
 			}
+			
+			LOG_MESSAGE(3,"Old decorate format for actor '%s'",name);
+			
 			tz.skipToken();	// skip '{'
 			do
 			{
